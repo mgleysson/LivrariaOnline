@@ -26,7 +26,7 @@ public class CadastroAdm extends JFrame implements Cadastro {
 	private JButton voltar, finalizar;
 	Background construtorImage = null;
 
-	public CadastroAdm(Usuario user,boolean UsuarioLogado, int itensCarrinho) {
+	public CadastroAdm(Usuario user,boolean UsuarioLogado, double itensCarrinho) {
 		super("Cadastro do Administrador - Livraria Online");
 		ImageIcon icone = new ImageIcon("icone.png");
 		setIconImage(icone.getImage());

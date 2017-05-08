@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import javax.swing.*;
 
 import elementos.Background;
+import elementos.Usuario;
 public class Cartao extends JFrame{
 
 	private JPanel panel;
@@ -19,13 +20,17 @@ public class Cartao extends JFrame{
 	private JComboBox parcelas = new JComboBox(nPar);
 	private JButton voltar, finalizar;
 	Background construtorImage = null;
+	private Usuario user;
+	private boolean login;
 	
-	public Cartao(int tipo, double d){
+	public Cartao(int tipo, double d,Usuario u,boolean l){
 		super("Encerrar Compra - Livraria Online");			
 		ImageIcon icone = new ImageIcon("icone.png");
 		setIconImage(icone.getImage());
 		construtorImage = new Background("fundoPrincipal.png");
 		construtorImage.setSize(2000,1500);	
+		this.user = u;
+		this.login = l;
 		
 		panel = new JPanel();
 		panel.setLayout(null);		
@@ -142,8 +147,7 @@ public class Cartao extends JFrame{
 		//Handler para eventos registradores
 		voltarEvento handler1 = new voltarEvento();
 		voltar.addActionListener(handler1);
-		finalizarEvento handler2 = new finalizarEvento();
-		finalizar.addActionListener(handler2);
+		finalizar.addActionListener(handler1);
 		
 	}	
 	private class voltarEvento implements ActionListener{
@@ -151,18 +155,12 @@ public class Cartao extends JFrame{
 		public void actionPerformed(ActionEvent event) {
 			
 			if(event.getSource()==voltar){
-			
+				PaginaInicial pgi = new PaginaInicial(0, user,login,0," ");
+				Cartao.this.dispose();			
 			}
-			
-		}
-		
-	}	
-	private class finalizarEvento implements ActionListener{
-		
-		public void actionPerformed(ActionEvent event) {
-			
 			if(event.getSource()==finalizar){
-			
+				PaginaInicial pgi = new PaginaInicial(0, user,login,0," ");
+				Cartao.this.dispose();						
 			}
 			
 		}

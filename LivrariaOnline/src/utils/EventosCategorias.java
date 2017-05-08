@@ -20,7 +20,7 @@ public class EventosCategorias implements ActionListener {
 	private boolean login;
 	private int item;
 
-	public EventosCategorias(JFrame paginaInicial, Usuario user,boolean UsuarioLogado, int itensCarrinho) {
+	public EventosCategorias(JFrame paginaInicial, Usuario user,boolean UsuarioLogado, double itensCarrinho) {
 		// TODO Auto-generated constructor stub
 		this.usuario = user;
 		this.paginaInicial = paginaInicial;

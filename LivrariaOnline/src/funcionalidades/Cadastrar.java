@@ -11,7 +11,7 @@ import enums.CategoriaLivro;
 public class Cadastrar {
 	static List<Usuario> listaClientes = new ArrayList<Usuario>();
 	static List<Usuario> listaAdmin = new ArrayList<Usuario>();
-	static List<Livro> listaLivros = new ArrayList<Livro>();
+	static ArrayList<Livro> listaLivros = new ArrayList<Livro>();
 	private static Categoria arte = new Categoria();
 	private static Categoria ajuda = new Categoria();
 	private static Categoria biografia = new Categoria();
@@ -44,9 +44,9 @@ public class Cadastrar {
 	}
 
 	public static void cadastrarLivro(String titulo, String autor, String categoria, String editora,
-			float preco, String descricao, int estoque) {
+			double d, String imagem, int estoque) {
 
-		Livro livro = new Livro(codigoLivro, titulo, autor, categoria, editora, preco, descricao, estoque);
+		Livro livro = new Livro(codigoLivro, titulo, autor, categoria, editora, d, imagem, estoque);
 		if (categoria.equals("arte")) {
 			arte.addLivros(livro);
 		} else if (categoria.equals("ajuda")) {
@@ -176,10 +176,13 @@ public class Cadastrar {
 		} else if (categoria.equals("turismo")) {
 			return(getTurismo());
 		}
-		return null;
+		return(setLivros());
 	}
-	public static void setListaLivros(List<Livro> listaLivros) {
+	public static void setListaLivros(ArrayList<Livro> listaLivros) {
 		Cadastrar.listaLivros = listaLivros;
+	}
+	public static ArrayList<Livro> setLivros() {
+		return(listaLivros);
 	}
 	public static ArrayList<Livro> getArte() {
 		return arte.getLivros();

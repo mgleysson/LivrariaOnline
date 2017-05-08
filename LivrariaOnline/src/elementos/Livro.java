@@ -8,20 +8,19 @@ public class Livro extends Item{
 	private String titulo;
 	private String autor;
 	private String editora;
-	private float preco;
-	private String descricao;
+	private double preco;
 	private String imagem;
 	private int estoque;
 	private CategoriaLivro categoria;
 
 	
-	public Livro(int codigo, String titulo, String autor, String categoria, String editora, float preco, String descricao, int estoque) {
+	public Livro(int codigo, String titulo, String autor, String categoria, String editora, double preco, String imagem, int estoque) {
 		this.codigo = codigo;
 		this.titulo = titulo;
 		this.autor = autor;
 		this.editora = editora;
 		this.preco = preco;
-		this.descricao = descricao;
+		this.imagem = imagem;
 		this.estoque = estoque;
 	}
 	
@@ -49,17 +48,11 @@ public class Livro extends Item{
 	public void setEditora(String editora) {
 		this.editora = editora;
 	}
-	public float getPreco() {
+	public double getPreco() {
 		return preco;
 	}
 	public void setPreco(float preco) {
 		this.preco = preco;
-	}
-	public String getDescricao() {
-		return descricao;
-	}
-	public void setDescricao(String descricao) {
-		this.descricao = descricao;
 	}
 	public int getEstoque() {
 		return estoque;

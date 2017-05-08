@@ -64,7 +64,7 @@ public class CadastroLivro extends JFrame{
 		editora.setBounds(1025,250,200,35);	
 		
 		descricaoT = new JLabel();
-		descricaoT.setText("<html><font color = #FFFFFF size = 5>Descrição</font></html>");
+		descricaoT.setText("<html><font color = #FFFFFF size = 5>Imagem</font></html>");
 		descricaoT.setBounds(125,300,250,60);
 		
 		descricao = new JTextField();

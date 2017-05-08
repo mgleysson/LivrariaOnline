@@ -20,11 +20,11 @@ public class EventosCadastro implements ActionListener {
 	private JButton finalizar;
 	private JButton voltar;
 	private Usuario user;
-	private int Itens;
+	private double Itens;
 
-	public EventosCadastro(Cadastro cadastroScreen, boolean b,Usuario u,boolean l,int i) {
+	public EventosCadastro(Cadastro cadastroScreen, boolean b,Usuario u,boolean l,double i) {
 
-		if (b) {
+		if (b == true) {
 			cadastroAdm = (CadastroAdm) cadastroScreen;
 		} else {
 			cadastroCliente = (CadastroCliente) cadastroScreen;
@@ -40,21 +40,17 @@ public class EventosCadastro implements ActionListener {
 
 		if (event.getSource() == finalizar) {
 
-			if (admin) {
+			if (admin == true) {
 				user = cadastroAdm.getUserInfo();
+				Cadastrar.setListaAdmin(user);
+				PaginaInicial pgi = new PaginaInicial(0, user,login,0," ");
+				cadastroAdm.setVisible(false);
 			} else {
 				user = cadastroCliente.getUserInfo();
 				Cadastrar.cadastrarCliente(user);
-			}
-
-			PaginaInicial pgi = new PaginaInicial(0, user,login,0," ");
-
-			if (admin) {
-				cadastroAdm.setVisible(false);
-			} else {
+				PaginaInicial pgi = new PaginaInicial(0, user,login,0," ");
 				cadastroCliente.setVisible(false);
 			}
-
 		} else if (event.getSource() == voltar) {
 
 			PaginaInicial pgi = new PaginaInicial(0, user,login,0," ");

@@ -27,7 +27,7 @@ public class CadastroCliente extends JFrame implements Cadastro {
 	private JButton voltar, finalizar;
 	Background construtorImage = null;
 
-	public CadastroCliente(Usuario user,boolean l,int i) {
+	public CadastroCliente(Usuario user,boolean l,double i) {
 		super("Cadastro do Cliente - Livraria Online");
 		ImageIcon icone = new ImageIcon("icone.png");
 		setIconImage(icone.getImage());

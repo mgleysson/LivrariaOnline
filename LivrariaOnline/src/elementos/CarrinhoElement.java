@@ -7,57 +7,57 @@ import java.util.List;
 
 public class CarrinhoElement {
 
-	private int codigo;
-	private Date dataCompra;
-	private float valorTotal;
-	private List<Livro> livros;
+	private static  int codigo;
+	private static Date dataCompra;
+	private static  float valorTotal;
+	private static  ArrayList<Livro> livros = new ArrayList<Livro>();
 
-	public void addItem(Livro i) {
-		livros.add(i);
+	public static  void addItem(Livro livro) {
+		livros.add(livro);
 	}
 
-	public String listaItens() {
+	public static  String listaItens() {
 		return (Arrays.toString(livros.toArray()));
 	}
 
-	public Item pegarItem(int indice) {
+	public static  Item pegarItem(int indice) {
 		return (livros.get(indice));
 	}
 
-	public void removerItem(int indice) {
+	public static  void removerItem(int indice) {
 		livros.remove(indice);
 	}
 
-	public int getCodigo() {
+	public static  int getCodigo() {
 		return codigo;
 	}
 
-	public void setCodigo(int codigo) {
-		this.codigo = codigo;
+	public static  void setCodigo(int codigo) {
+		codigo = codigo;
 	}
 
-	public Date getDataCompra() {
+	public static  Date getDataCompra() {
 		return dataCompra;
 	}
 
-	public void setDataCompra(Date dataCompra) {
-		this.dataCompra = dataCompra;
+	public static  void setDataCompra(Date dataCompra) {
+		dataCompra = dataCompra;
 	}
 
-	public float getValorTotal() {
+	public static  float getValorTotal() {
 		return valorTotal;
 	}
 
-	public void setValorTotal(float valorTotal) {
-		this.valorTotal = valorTotal;
+	public static  void setValorTotal(float valorTotal) {
+		valorTotal = valorTotal;
 	}
 
-	public List<Livro> getItens() {
+	public  static List<Livro> getItens() {
 		return livros;
 	}
 
-	public void setItens(ArrayList<Livro> itens) {
-		this.livros = itens;
+	public static  void setItens(ArrayList<Livro> itens) {
+		livros = itens;
 	}
 
 }

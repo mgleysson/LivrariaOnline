@@ -15,39 +15,45 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import elementos.Background;
+import elementos.CarrinhoElement;
 import elementos.Livro;
 import elementos.Usuario;
 import funcionalidades.Cadastrar;
-import utils.EventoCarrinho;
 import utils.EventoLogin;
 import utils.EventosCategorias;
 
 public class PaginaInicial extends JFrame {
 
-	private int nItens;
+	private double nItens;
+	private int page;
 	private Usuario u;
 	private boolean l;
+	private String cat;
 	private JPanel panel;
 	private JLabel enderecoT, senhaT;
 	private JTextField endereco;
 	private JPasswordField senha;
 	private JButton acessar, cadastrar, arte, ajuda, biografia, exatas, humanas, comidas, direito;
 	private JButton educacao, historia, estrangeiro, infantil, nacional, negocios, hq, saude, tecnologia, turismo;
-	private JButton livro1, livro2, livro3, livro4, livro5, livro6, livro7, livro8, carrinho, next, ret;
+	private JButton livro1, livro2, livro3, livro4, livro5, livro6, carrinho, next, ret;
 	private JButton cadsAdmin,cadsLivro;
 	Background construtorImage = null;
+	private ArrayList<Livro> livros = new ArrayList<Livro>();
 
-	public PaginaInicial(int numberOfPage, Usuario user,boolean UsuarioLogado, int itensCarrinho,String categoria) {
+	public PaginaInicial(int numberOfPage, Usuario user,boolean UsuarioLogado, double itensCarrinho,String categoria) {
 		super("Página Inicial - Livraria Online");
 		this.nItens = itensCarrinho;
 		this.u = user;
 		this.l = UsuarioLogado;
+		this.cat = categoria;
+		this.page = numberOfPage;
 		ImageIcon icone = new ImageIcon("icone.png");
 		setIconImage(icone.getImage());
 		construtorImage = new Background("fundoPrincipal.png");
 		construtorImage.setSize(2000, 1500);
-		boolean u1, u2, u3, u4, u5, u6, u7, u8;
-		u1 = u2 = u3 = u4 = u5 = u6 = u7 = u8 = false;
+		boolean u1, u2, u3, u4, u5, u6;
+		u1 = u2 = u3 = u4 = u5 = u6 = false;
+		
 
 		panel = new JPanel();
 		panel.setLayout(null);
@@ -59,14 +65,16 @@ public class PaginaInicial extends JFrame {
 		// Cadastro teste
 		// Cadastrar.cadastrarLivro("nome", "autor", CategoriaLivro.AJUDA, "",
 		// 2, "", 1);
-		ArrayList<Livro> livros = Cadastrar.getListaLivros(categoria);
+		this.livros = Cadastrar.getListaLivros(categoria);
 		int size;
 		if (livros == null) {
 			size = 0;
 		} else {
-			size = livros.size() - (3 * numberOfPage);
+			size = livros.size() - (6 * numberOfPage);
+			if(size>6){
+				size = 6;
+			}
 		}
-
 		/*
 		 * TODO Cada case terá a função de modificar estas variáveis booleanas, que por sua vez
 		 * são responsáveis por tornar vísiveis os livros de acordo com a demanda já que
@@ -91,12 +99,6 @@ public class PaginaInicial extends JFrame {
 		case 6:
 			u1 = u2 = u3 = u4 = u5 = u6 = true;
 			break;
-		case 7:
-			u1 = u2 = u3 = u4 = u5 = u6 = u7 = true;
-			break;
-		case 8:
-			u1 = u2 = u3 = u4 = u5 = u6 = u7 = u8 = true;
-			break;
 		}
 
 		if (u1 == true) {
@@ -109,89 +111,79 @@ public class PaginaInicial extends JFrame {
 			livro1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
 			livro1.setBackground(Color.white);
 			panel.add(livro1);
+			livroEvento handler10 = new livroEvento();
+			livro1.addActionListener(handler10);
 		}
 		if (u2 == true) {
 			livro2 = new JButton(new ImageIcon(livros.get(1 + (3 * numberOfPage)).getImagem()));
 			livro2.setText(livros.get(1 + (3 * numberOfPage)).getTitulo() + " R$: "
 					+ livros.get(1 + (3 * numberOfPage)).getPreco());
-			livro2.setBounds(480, 220, 200, 200);
+			livro2.setBounds(680, 220, 200, 200);
 			livro2.setAlignmentX(javax.swing.SwingConstants.BOTTOM);
 			livro2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 			livro2.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
 			livro2.setBackground(Color.white);
 			panel.add(livro2);
+			livroEvento handler10 = new livroEvento();
+			livro2.addActionListener(handler10);
 		}
 		if (u3 == true) {
 			livro3 = new JButton(new ImageIcon(livros.get(2 + (3 * numberOfPage)).getImagem()));
 			livro3.setText(livros.get(2 + (3 * numberOfPage)).getTitulo() + " R$: "
 					+ livros.get(2 + (3 * numberOfPage)).getPreco());
-			livro3.setBounds(590, 220, 200, 200);
+			livro3.setBounds(1090, 220, 200, 200);
 			livro3.setAlignmentX(javax.swing.SwingConstants.BOTTOM);
 			livro3.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 			livro3.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
 			livro3.setBackground(Color.white);
 			panel.add(livro3);
+			livroEvento handler10 = new livroEvento();
+			livro3.addActionListener(handler10);
 		}
 		if (u4 == true) {
 			livro4 = new JButton(new ImageIcon(livros.get(3 + (3 * numberOfPage)).getImagem()));
 			livro4.setText(livros.get(3 + (3 * numberOfPage)).getTitulo() + " R$: "
 					+ livros.get(3 + (3 * numberOfPage)).getPreco());
-			livro4.setBounds(600, 220, 200, 200);
+			livro4.setBounds(270, 440, 200, 200);
 			livro4.setAlignmentX(javax.swing.SwingConstants.BOTTOM);
 			livro4.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 			livro4.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
 			livro4.setBackground(Color.white);
 			panel.add(livro4);
+			livroEvento handler10 = new livroEvento();
+			livro4.addActionListener(handler10);
 		}
 		if (u5 == true) {
 			livro5 = new JButton(new ImageIcon(livros.get(4 + (3 * numberOfPage)).getImagem()));
 			livro5.setText(livros.get(4 + (3 * numberOfPage)).getTitulo() + " R$: "
 					+ livros.get(4 + (3 * numberOfPage)).getPreco());
-			livro5.setBounds(270, 440, 200, 200);
+			livro5.setBounds(680, 440, 200, 200);
 			livro5.setAlignmentX(javax.swing.SwingConstants.BOTTOM);
 			livro5.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 			livro5.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
 			livro5.setBackground(Color.white);
 			panel.add(livro5);
+			livroEvento handler10 = new livroEvento();
+			livro5.addActionListener(handler10);
 		}
 		if (u6 == true) {
 			livro6 = new JButton(new ImageIcon(livros.get(5 + (3 * numberOfPage)).getImagem()));
 			livro6.setText(livros.get(5 + (3 * numberOfPage)).getTitulo() + " R$: "
-					+ livros.get(5 + (3 * numberOfPage)).getPreco());
-			livro6.setBounds(380, 440, 200, 200);
+					+ livros.get(5  + (3 * numberOfPage)).getPreco());
+			livro6.setBounds(1090, 440, 200, 200);
 			livro6.setAlignmentX(javax.swing.SwingConstants.BOTTOM);
 			livro6.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 			livro6.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
 			livro6.setBackground(Color.white);
 			panel.add(livro6);
+			livroEvento handler10 = new livroEvento();
+			livro6.addActionListener(handler10);
 		}
-		if (u7 == true) {
-			livro7 = new JButton(new ImageIcon(livros.get(6 + (3 * numberOfPage)).getImagem()));
-			livro7.setText(livros.get(6 + (3 * numberOfPage)).getTitulo() + " R$: "
-					+ livros.get(6 + (3 * numberOfPage)).getPreco());
-			livro7.setBounds(490, 440, 200, 200);
-			livro7.setAlignmentX(javax.swing.SwingConstants.BOTTOM);
-			livro7.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-			livro7.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-			livro7.setBackground(Color.white);
-			panel.add(livro7);
-		}
-		if (u8 == true) {
-			livro8 = new JButton(new ImageIcon(livros.get(7 + (3 * numberOfPage)).getImagem()));
-			livro8.setText(livros.get(7 + (3 * numberOfPage)).getTitulo() + " R$: "
-					+ livros.get(7 + (3 * numberOfPage)).getPreco());
-			livro8.setBounds(600, 440, 200, 200);
-			livro8.setAlignmentX(javax.swing.SwingConstants.BOTTOM);
-			livro8.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-			livro8.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-			livro8.setBackground(Color.white);
-			panel.add(livro8);
-		}
-
-		if (size > 3 && ((numberOfPage + 1) * 3) < size && numberOfPage != 0) {
+		
+		if (size == 6 && livros.size()>(numberOfPage*6) && numberOfPage != 0) {
 			// Adicionando o botão next
 			next = new JButton();
-			next.setBounds(500, 800, 100, 28);
+			next.setBounds(1190, 650, 100, 28);
 			next.setBackground(Color.white);
 			next.setText("Next Page");
 			panel.add(next);
@@ -200,26 +192,26 @@ public class PaginaInicial extends JFrame {
 
 			// Adicionando o botão return
 			ret = new JButton();
-			ret.setBounds(550, 800, 100, 28);
+			ret.setBounds(1000, 650, 100, 28);
 			ret.setBackground(Color.white);
 			ret.setText("Previus");
 			panel.add(ret);
 			retEvento handler6 = new retEvento();
 			ret.addActionListener(handler6);
 
-		} else if (size >= 3 && ((numberOfPage + 1) * 3) >= size) {
+		} else if (size<=6 && livros.size()>=(numberOfPage*6) && numberOfPage!=0) {
 			ret = new JButton();
-			ret.setBounds(550, 800, 100, 28);
+			ret.setBounds(1000, 650, 100, 28);
 			ret.setBackground(Color.white);
 			ret.setText("Previus");
 			panel.add(ret);
 			retEvento handler6 = new retEvento();
 			ret.addActionListener(handler6);
-		} else if (size > 3 && numberOfPage == 0) {
+		} else if (livros.size() > 6 && numberOfPage == 0) {
 
 			// Adicionando o botão next
 			next = new JButton();
-			next.setBounds(500, 800, 100, 28);
+			next.setBounds(1190, 650, 100, 28);
 			next.setBackground(Color.white);
 			next.setText("Next Page");
 			panel.add(next);
@@ -234,6 +226,37 @@ public class PaginaInicial extends JFrame {
 		carrinho.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
 		carrinho.setBackground(Color.white);
 		carrinho.setBorderPainted(false);
+		
+		if(user != null){
+			if(u.isAdmin() == true){
+				cadsAdmin = new JButton();
+				cadsAdmin.setText("<html><font size = 4>Cadastrar Administrador</font></html>");
+				cadsAdmin.setBounds(850, 30, 200, 55);
+				cadsAdmin.setAlignmentX(javax.swing.SwingConstants.BOTTOM);
+				cadsAdmin.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+				cadsAdmin.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+				cadsAdmin.setBackground(Color.gray);
+				cadsAdmin.setBorderPainted(false);
+
+				cadsLivro = new JButton();
+				cadsLivro.setText("<html><font size = 4>Cadastrar/Excluir Livro</font></html>");
+				cadsLivro.setBounds(1080, 30, 170, 55);
+				cadsLivro.setAlignmentX(javax.swing.SwingConstants.BOTTOM);
+				cadsLivro.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+				cadsLivro.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+				cadsLivro.setBackground(Color.gray);
+				cadsLivro.setBorderPainted(false);
+				
+				panel.add(cadsAdmin);
+				panel.add(cadsLivro);	
+				
+				cadsAdminEvento handler5 = new cadsAdminEvento();
+				cadsAdmin.addActionListener(handler5);
+
+				cadsLivroEvento handler6 = new cadsLivroEvento();
+				cadsLivro.addActionListener(handler6);				
+			}
+		}
 		
 		if(UsuarioLogado == false){
 			enderecoT = new JLabel();
@@ -285,38 +308,6 @@ public class PaginaInicial extends JFrame {
 			cadastrar.addActionListener(handler2);
 			//handler2.setCadastrar(cadastrar);		
 		}
-		
-		if(user != null){
-			if(user.isAdmin()){
-				cadsAdmin = new JButton();
-				cadsAdmin.setText("<html><font size = 4>Cadastrar Administrador</font></html>");
-				cadsAdmin.setBounds(850, 30, 200, 55);
-				cadsAdmin.setAlignmentX(javax.swing.SwingConstants.BOTTOM);
-				cadsAdmin.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-				cadsAdmin.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-				cadsAdmin.setBackground(Color.gray);
-				cadsAdmin.setBorderPainted(false);
-
-				cadsLivro = new JButton();
-				cadsLivro.setText("<html><font size = 4>Cadastrar/Excluir Livro</font></html>");
-				cadsLivro.setBounds(1080, 30, 170, 55);
-				cadsLivro.setAlignmentX(javax.swing.SwingConstants.BOTTOM);
-				cadsLivro.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-				cadsLivro.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-				cadsLivro.setBackground(Color.gray);
-				cadsLivro.setBorderPainted(false);
-				
-				panel.add(cadsAdmin);
-				panel.add(cadsLivro);	
-				
-				cadsAdminEvento handler5 = new cadsAdminEvento();
-				cadsAdmin.addActionListener(handler5);
-
-				cadsLivroEvento handler6 = new cadsLivroEvento();
-				cadsLivro.addActionListener(handler6);				
-			}
-		}
-
 		arte = new JButton();
 		arte.setText("<html><font color #FFFFFF size = 4>Arte e Fotografia</font></html>");
 		arte.setBounds(0, 159, 200, 32);
@@ -517,10 +508,8 @@ public class PaginaInicial extends JFrame {
 		handler3.setTecnologia(tecnologia);
 		handler3.setTurismo(turismo);
 
-		//EventoCarrinho handler4 = new EventoCarrinho(this,nItens);
 		CarrinhoEvento handler4 = new CarrinhoEvento();
 		carrinho.addActionListener(handler4);
-		//handler4.setCarrinho(carrinho);
 	}
 
 	private class nextEvento implements ActionListener {
@@ -528,9 +517,8 @@ public class PaginaInicial extends JFrame {
 		public void actionPerformed(ActionEvent event) {
 
 			if (event.getSource() == next) {
-				/*
-				 * TODO Next action
-				 */
+				PaginaInicial pgi = new PaginaInicial(page+1,u,l,nItens,cat);
+				PaginaInicial.this.dispose();
 			}
 		}
 	}
@@ -540,9 +528,8 @@ public class PaginaInicial extends JFrame {
 		public void actionPerformed(ActionEvent event) {
 
 			if (event.getSource() == ret) {
-				/*
-				 * TODO Back action
-				 */
+				PaginaInicial pgi = new PaginaInicial(page-1,u,l,nItens,cat);
+				PaginaInicial.this.dispose();
 			}
 
 		}
@@ -573,7 +560,7 @@ public class PaginaInicial extends JFrame {
 		public void actionPerformed(ActionEvent event) {
 			if (event.getSource() == carrinho) {
 				if(nItens != 0){
-					Carrinho crr = new Carrinho(0);
+					Carrinho crr = new Carrinho(0,u,l,nItens);
 					PaginaInicial.this.dispose();
 				}
 			}
@@ -593,6 +580,39 @@ public class PaginaInicial extends JFrame {
 					CadastroLivro cdl = new CadastroLivro(u,l);
 					PaginaInicial.this.dispose();
 			}
+		}
+	}
+	private class livroEvento implements ActionListener {
+		public void actionPerformed(ActionEvent event) {
+			if(l == true){
+				if(event.getSource() == livro1){
+					CarrinhoElement.addItem(livros.get(0 + (3 * page)));
+					Carrinho crr = new Carrinho(0,u,l,nItens + livros.get(0 + (3 * page)).getPreco());
+				}
+				if(event.getSource() == livro2){
+					CarrinhoElement.addItem(livros.get(1 + (3 * page)));
+					Carrinho crr = new Carrinho(0,u,l,nItens + livros.get(1 + (3 * page)).getPreco());
+				}
+				if(event.getSource() == livro3){
+					CarrinhoElement.addItem(livros.get(2 + (3 * page)));
+					Carrinho crr = new Carrinho(0,u,l,nItens + livros.get(2 + (3 * page)).getPreco());	
+				}
+				if(event.getSource() == livro4){
+					CarrinhoElement.addItem(livros.get(3 + (3 * page)));
+					Carrinho crr = new Carrinho(0,u,l,nItens + livros.get(3 + (3 * page)).getPreco());	
+				}
+				if(event.getSource() == livro5){
+					CarrinhoElement.addItem(livros.get(4 + (3 * page)));
+					Carrinho crr = new Carrinho(0,u,l,nItens + livros.get(4 + (3 * page)).getPreco());
+				}
+				if(event.getSource() == livro6){
+					CarrinhoElement.addItem(livros.get(5 + (3 * page)));
+					Carrinho crr = new Carrinho(0,u,l,nItens + livros.get(5 + (3 * page)).getPreco());
+				}				
+			}else{
+				CadastroCliente cdc = new CadastroCliente(null,l,nItens);
+			}
+			PaginaInicial.this.dispose();
 		}
 	}
 
