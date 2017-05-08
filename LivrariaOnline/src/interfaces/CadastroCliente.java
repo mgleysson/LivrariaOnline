@@ -1,6 +1,7 @@
 package interfaces;
 
 import java.awt.Color;
+import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -12,9 +13,9 @@ import javax.swing.JTextField;
 
 import elementos.Background;
 import elementos.Cadastro;
+import elementos.Item;
 import elementos.Usuario;
 import utils.EventosCadastro;
-
 
 public class CadastroCliente extends JFrame implements Cadastro {
 
@@ -27,7 +28,7 @@ public class CadastroCliente extends JFrame implements Cadastro {
 	private JButton voltar, finalizar;
 	Background construtorImage = null;
 
-	public CadastroCliente(Usuario user,boolean l,double i) {
+	public CadastroCliente(Usuario user, boolean l, double i) {
 		super("Cadastro do Cliente - Livraria Online");
 		ImageIcon icone = new ImageIcon("icone.png");
 		setIconImage(icone.getImage());
@@ -192,7 +193,7 @@ public class CadastroCliente extends JFrame implements Cadastro {
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
 		// Handler para eventos registradores
-		EventosCadastro handler1 = new EventosCadastro(this, false,user,l,i);
+		EventosCadastro handler1 = new EventosCadastro(this, false, user, l, new ArrayList<Item>());
 		voltar.addActionListener(handler1);
 		finalizar.addActionListener(handler1);
 
@@ -203,7 +204,6 @@ public class CadastroCliente extends JFrame implements Cadastro {
 
 	@Override
 	public Usuario getUserInfo() {
-		// TODO Auto-generated method stub
 		Usuario user = new Usuario(nome.getText() + " " + sobrenome.getText(), senha.getPassword().toString(),
 				email.getText(), cpf.getText(), dataNascimento.getText(), cep.getText(), endereco.getText(),
 				complemento.getText(), numero.getText(), bairro.getText(), estado.getText(), cidade.getText(), "");

@@ -1,8 +1,7 @@
 package interfaces;
 
 import java.awt.Color;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -14,6 +13,7 @@ import javax.swing.JTextField;
 
 import elementos.Background;
 import elementos.Cadastro;
+import elementos.Item;
 import elementos.Usuario;
 import utils.EventosCadastro;
 
@@ -26,7 +26,7 @@ public class CadastroAdm extends JFrame implements Cadastro {
 	private JButton voltar, finalizar;
 	Background construtorImage = null;
 
-	public CadastroAdm(Usuario user,boolean UsuarioLogado, double itensCarrinho) {
+	public CadastroAdm(Usuario user,boolean UsuarioLogado, List<Item> livrosCarrinho) {
 		super("Cadastro do Administrador - Livraria Online");
 		ImageIcon icone = new ImageIcon("icone.png");
 		setIconImage(icone.getImage());
@@ -109,7 +109,7 @@ public class CadastroAdm extends JFrame implements Cadastro {
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
 		// Handler para eventos registradores
-		EventosCadastro handler1 = new EventosCadastro(this, true,user,UsuarioLogado,itensCarrinho);
+		EventosCadastro handler1 = new EventosCadastro(this, true,user,UsuarioLogado, livrosCarrinho);
 		voltar.addActionListener(handler1);
 		finalizar.addActionListener(handler1);
 

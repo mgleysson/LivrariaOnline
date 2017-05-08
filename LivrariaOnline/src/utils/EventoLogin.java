@@ -12,7 +12,6 @@ public class EventoLogin implements ActionListener {
 	private JButton acessar;
 
 	public EventoLogin(PaginaInicial paginaInicial) {
-		// TODO Auto-generated constructor stub
 	}
 
 	public void actionPerformed(ActionEvent event) {

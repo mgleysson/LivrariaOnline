@@ -15,16 +15,15 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import elementos.Background;
-import elementos.CarrinhoElement;
+import elementos.Item;
 import elementos.Livro;
 import elementos.Usuario;
 import funcionalidades.Cadastrar;
-import utils.EventoLogin;
 import utils.EventosCategorias;
 
 public class PaginaInicial extends JFrame {
 
-	private double nItens;
+	private List<Item> carrinhoLivros;
 	private int page;
 	private Usuario u;
 	private boolean l;
@@ -36,15 +35,16 @@ public class PaginaInicial extends JFrame {
 	private JButton acessar, cadastrar, arte, ajuda, biografia, exatas, humanas, comidas, direito;
 	private JButton educacao, historia, estrangeiro, infantil, nacional, negocios, hq, saude, tecnologia, turismo;
 	private JButton livro1, livro2, livro3, livro4, livro5, livro6, carrinho, next, ret;
-	private JButton cadsAdmin,cadsLivro;
+	private JButton cadsAdmin, cadsLivro;
 	Background construtorImage = null;
-	private ArrayList<Livro> livros = new ArrayList<Livro>();
+	private List<Livro> livros = new ArrayList<Livro>();
 
-	public PaginaInicial(int numberOfPage, Usuario user,boolean UsuarioLogado, double itensCarrinho,String categoria) {
+	public PaginaInicial(int numberOfPage, Usuario user, boolean usuarioLogado, List<Item> itensCarrinho,
+			String categoria) {
 		super("Página Inicial - Livraria Online");
-		this.nItens = itensCarrinho;
+		this.carrinhoLivros = itensCarrinho;
 		this.u = user;
-		this.l = UsuarioLogado;
+		this.l = usuarioLogado;
 		this.cat = categoria;
 		this.page = numberOfPage;
 		ImageIcon icone = new ImageIcon("icone.png");
@@ -53,7 +53,6 @@ public class PaginaInicial extends JFrame {
 		construtorImage.setSize(2000, 1500);
 		boolean u1, u2, u3, u4, u5, u6;
 		u1 = u2 = u3 = u4 = u5 = u6 = false;
-		
 
 		panel = new JPanel();
 		panel.setLayout(null);
@@ -71,14 +70,15 @@ public class PaginaInicial extends JFrame {
 			size = 0;
 		} else {
 			size = livros.size() - (6 * numberOfPage);
-			if(size>6){
+			if (size > 6) {
 				size = 6;
 			}
 		}
 		/*
-		 * TODO Cada case terá a função de modificar estas variáveis booleanas, que por sua vez
-		 * são responsáveis por tornar vísiveis os livros de acordo com a demanda já que
-		 * nas possíveis dimensões só serão suportados 8 livros.   
+		 * TODO Cada case terá a função de modificar estas variáveis booleanas,
+		 * que por sua vez são responsáveis por tornar vísiveis os livros de
+		 * acordo com a demanda já que nas possíveis dimensões só serão
+		 * suportados 8 livros.
 		 */
 		switch (size) {
 		case 1:
@@ -169,7 +169,7 @@ public class PaginaInicial extends JFrame {
 		if (u6 == true) {
 			livro6 = new JButton(new ImageIcon(livros.get(5 + (3 * numberOfPage)).getImagem()));
 			livro6.setText(livros.get(5 + (3 * numberOfPage)).getTitulo() + " R$: "
-					+ livros.get(5  + (3 * numberOfPage)).getPreco());
+					+ livros.get(5 + (3 * numberOfPage)).getPreco());
 			livro6.setBounds(1090, 440, 200, 200);
 			livro6.setAlignmentX(javax.swing.SwingConstants.BOTTOM);
 			livro6.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -179,8 +179,8 @@ public class PaginaInicial extends JFrame {
 			livroEvento handler10 = new livroEvento();
 			livro6.addActionListener(handler10);
 		}
-		
-		if (size == 6 && livros.size()>(numberOfPage*6) && numberOfPage != 0) {
+
+		if (size == 6 && livros.size() > (numberOfPage * 6) && numberOfPage != 0) {
 			// Adicionando o botão next
 			next = new JButton();
 			next.setBounds(1190, 650, 100, 28);
@@ -199,7 +199,7 @@ public class PaginaInicial extends JFrame {
 			retEvento handler6 = new retEvento();
 			ret.addActionListener(handler6);
 
-		} else if (size<=6 && livros.size()>=(numberOfPage*6) && numberOfPage!=0) {
+		} else if (size <= 6 && livros.size() >= (numberOfPage * 6) && numberOfPage != 0) {
 			ret = new JButton();
 			ret.setBounds(1000, 650, 100, 28);
 			ret.setBackground(Color.white);
@@ -226,9 +226,8 @@ public class PaginaInicial extends JFrame {
 		carrinho.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
 		carrinho.setBackground(Color.white);
 		carrinho.setBorderPainted(false);
-		// TODO Verificar o erro que esta provocando acesso a todos os clientes de funções do admin 
-		if(user != null){
-			if(u.isAdmin() == true){
+		if (user != null) {
+			if (u.isAdmin() == true) {
 				cadsAdmin = new JButton();
 				cadsAdmin.setText("<html><font size = 4>Cadastrar Administrador</font></html>");
 				cadsAdmin.setBounds(850, 30, 200, 55);
@@ -246,19 +245,19 @@ public class PaginaInicial extends JFrame {
 				cadsLivro.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
 				cadsLivro.setBackground(Color.gray);
 				cadsLivro.setBorderPainted(false);
-				
+
 				panel.add(cadsAdmin);
-				panel.add(cadsLivro);	
-				
+				panel.add(cadsLivro);
+
 				cadsAdminEvento handler5 = new cadsAdminEvento();
 				cadsAdmin.addActionListener(handler5);
 
 				cadsLivroEvento handler6 = new cadsLivroEvento();
-				cadsLivro.addActionListener(handler6);				
+				cadsLivro.addActionListener(handler6);
 			}
 		}
-		
-		if(UsuarioLogado == false){
+
+		if (usuarioLogado == false) {
 			enderecoT = new JLabel();
 			enderecoT.setText("<html><font color = #0087DD size = 4>E-mail*</font></html>");
 			enderecoT.setBounds(890, 0, 200, 35);
@@ -290,23 +289,23 @@ public class PaginaInicial extends JFrame {
 			acessar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
 			acessar.setBackground(Color.gray);
 			acessar.setBorderPainted(false);
-			
+
 			panel.add(enderecoT);
 			panel.add(endereco);
 			panel.add(senhaT);
 			panel.add(senha);
 			panel.add(cadastrar);
-			panel.add(acessar);	
-			
-			//EventoLogin handler1 = new EventoLogin(this);
+			panel.add(acessar);
+
+			// EventoLogin handler1 = new EventoLogin(this);
 			loginEvento handler1 = new loginEvento();
 			acessar.addActionListener(handler1);
-			//handler1.setAcessar(acessar);
+			// handler1.setAcessar(acessar);
 
 			cadastrarEvento handler2 = new cadastrarEvento();
-			//EventoCadastrar handler2 = new EventoCadastrar(this);
+			// EventoCadastrar handler2 = new EventoCadastrar(this);
 			cadastrar.addActionListener(handler2);
-			//handler2.setCadastrar(cadastrar);		
+			// handler2.setCadastrar(cadastrar);
 		}
 		arte = new JButton();
 		arte.setText("<html><font color #FFFFFF size = 4>Arte e Fotografia</font></html>");
@@ -472,7 +471,7 @@ public class PaginaInicial extends JFrame {
 
 		// Handler para eventos registradores
 
-		EventosCategorias handler3 = new EventosCategorias(this, user,UsuarioLogado,itensCarrinho);
+		EventosCategorias handler3 = new EventosCategorias(this, user, usuarioLogado, itensCarrinho);
 		arte.addActionListener(handler3);
 		ajuda.addActionListener(handler3);
 		biografia.addActionListener(handler3);
@@ -517,7 +516,7 @@ public class PaginaInicial extends JFrame {
 		public void actionPerformed(ActionEvent event) {
 
 			if (event.getSource() == next) {
-				PaginaInicial pgi = new PaginaInicial(page+1,u,l,nItens,cat);
+				PaginaInicial pgi = new PaginaInicial(page + 1, u, l, carrinhoLivros, cat);
 				PaginaInicial.this.dispose();
 			}
 		}
@@ -528,89 +527,191 @@ public class PaginaInicial extends JFrame {
 		public void actionPerformed(ActionEvent event) {
 
 			if (event.getSource() == ret) {
-				PaginaInicial pgi = new PaginaInicial(page-1,u,l,nItens,cat);
+				PaginaInicial pgi = new PaginaInicial(page - 1, u, l, carrinhoLivros, cat);
 				PaginaInicial.this.dispose();
 			}
 
 		}
 
 	}
+
 	private class cadastrarEvento implements ActionListener {
 		public void actionPerformed(ActionEvent event) {
-
 			if (event.getSource() == cadastrar) {
-				CadastroCliente cdc = new CadastroCliente(u,l,nItens);
+				CadastroCliente cdc = new CadastroCliente(u, l, carrinhoLivros.size());
 				PaginaInicial.this.dispose();
 			}
 		}
 	}
+
 	private class loginEvento implements ActionListener {
 		public void actionPerformed(ActionEvent event) {
 			if (event.getSource() == acessar) {
-				Usuario user = new Usuario("","","");
+				Usuario user = null;
 				user = Cadastrar.pegarUser(endereco.getText(), senha.getPassword());
-				if(user!=null){
-					PaginaInicial pgi = new PaginaInicial(0,user,true,0," ");
-					PaginaInicial.this.dispose();					
+				if (user != null) {
+					PaginaInicial pgi = new PaginaInicial(0, user, true, new ArrayList<Item>(), " ");
+					PaginaInicial.this.dispose();
 				}
 			}
 		}
 	}
+
 	private class CarrinhoEvento implements ActionListener {
 		public void actionPerformed(ActionEvent event) {
 			if (event.getSource() == carrinho) {
-				if(nItens != 0){
-					Carrinho crr = new Carrinho(0,u,l,nItens);
+				if (carrinhoLivros.size() != 0) {
+					Carrinho crr = new Carrinho(0, u, l, carrinhoLivros);
 					PaginaInicial.this.dispose();
 				}
 			}
 		}
 	}
+
 	private class cadsAdminEvento implements ActionListener {
 		public void actionPerformed(ActionEvent event) {
 			if (event.getSource() == cadsAdmin) {
-					CadastroAdm cda = new CadastroAdm(u,l,nItens);
-					PaginaInicial.this.dispose();
+				CadastroAdm cda = new CadastroAdm(u, l, carrinhoLivros);
+				PaginaInicial.this.dispose();
 			}
 		}
 	}
+
 	private class cadsLivroEvento implements ActionListener {
 		public void actionPerformed(ActionEvent event) {
 			if (event.getSource() == cadsLivro) {
-					CadastroLivro cdl = new CadastroLivro(u,l);
-					PaginaInicial.this.dispose();
+				CadastroLivro cdl = new CadastroLivro(u, l);
+				PaginaInicial.this.dispose();
 			}
 		}
 	}
+
 	private class livroEvento implements ActionListener {
 		public void actionPerformed(ActionEvent event) {
-			if(l == true){
-				if(event.getSource() == livro1){
-					CarrinhoElement.addItem(livros.get(0 + (3 * page)));
-					Carrinho crr = new Carrinho(0,u,l,nItens + livros.get(0 + (3 * page)).getPreco());
+			if (l == true) {
+				if (event.getSource() == livro1) {
+					int index = 0 + (3 * page);
+					Livro livro = livros.get(index);
+					boolean flag = true;
+					for (Item i : carrinhoLivros) {
+						if (i.getLivro().equals(livro)) {
+							i.setQuantidade(i.getQuantidade() + 1);
+							flag = false;
+						}
+					}
+
+					if (flag) {
+						Item item = new Item();
+						item.setLivro(livros.get(index));
+						item.setQuantidade(1);
+						item.setValorUnit(livros.get(index).getValorUnit());
+						carrinhoLivros.add(item);
+					}
+
+					Carrinho crr = new Carrinho(0, u, l, carrinhoLivros);
+				} else if (event.getSource() == livro2) {
+					int index = 1 + (3 * page);
+					Livro livro = livros.get(index);
+					boolean flag = true;
+					for (Item i : carrinhoLivros) {
+						if (i.getLivro().equals(livro)) {
+							i.setQuantidade(i.getQuantidade() + 1);
+							flag = false;
+						}
+					}
+
+					if (flag) {
+						Item item = new Item();
+						item.setLivro(livros.get(index));
+						item.setQuantidade(1);
+						item.setValorUnit(livros.get(index).getValorUnit());
+						carrinhoLivros.add(item);
+					}
+
+					Carrinho crr = new Carrinho(0, u, l, carrinhoLivros);
+				} else if (event.getSource() == livro3) {
+					int index = 2 + (3 * page);
+					Livro livro = livros.get(index);
+					boolean flag = true;
+					for (Item i : carrinhoLivros) {
+						if (i.getLivro().equals(livro)) {
+							i.setQuantidade(i.getQuantidade() + 1);
+							flag = false;
+						}
+					}
+
+					if (flag) {
+						Item item = new Item();
+						item.setLivro(livros.get(index));
+						item.setQuantidade(1);
+						item.setValorUnit(livros.get(index).getValorUnit());
+						carrinhoLivros.add(item);
+					}
+
+					Carrinho crr = new Carrinho(0, u, l, carrinhoLivros);
+				} else if (event.getSource() == livro4) {
+					int index = 3 + (3 * page);
+					Livro livro = livros.get(index);
+					boolean flag = true;
+					for (Item i : carrinhoLivros) {
+						if (i.getLivro().equals(livro)) {
+							i.setQuantidade(i.getQuantidade() + 1);
+							flag = false;
+						}
+					}
+
+					if (flag) {
+						Item item = new Item();
+						item.setLivro(livros.get(index));
+						item.setQuantidade(1);
+						item.setValorUnit(livros.get(index).getValorUnit());
+						carrinhoLivros.add(item);
+					}
+
+					Carrinho crr = new Carrinho(0, u, l, carrinhoLivros);
+				} else if (event.getSource() == livro5) {
+					int index = 4 + (3 * page);
+					Livro livro = livros.get(index);
+					boolean flag = true;
+					for (Item i : carrinhoLivros) {
+						if (i.getLivro().equals(livro)) {
+							i.setQuantidade(i.getQuantidade() + 1);
+							flag = false;
+						}
+					}
+
+					if (flag) {
+						Item item = new Item();
+						item.setLivro(livros.get(index));
+						item.setQuantidade(1);
+						item.setValorUnit(livros.get(index).getValorUnit());
+						carrinhoLivros.add(item);
+					}
+
+					Carrinho crr = new Carrinho(0, u, l, carrinhoLivros);
+				} else if (event.getSource() == livro6) {
+					int index = 5 + (3 * page);
+					Livro livro = livros.get(index);
+					boolean flag = true;
+					for (Item i : carrinhoLivros) {
+						if (i.getLivro().equals(livro)) {
+							i.setQuantidade(i.getQuantidade() + 1);
+							flag = false;
+						}
+					}
+
+					if (flag) {
+						Item item = new Item();
+						item.setLivro(livros.get(index));
+						item.setQuantidade(1);
+						item.setValorUnit(livros.get(index).getValorUnit());
+						carrinhoLivros.add(item);
+					}
+
+					Carrinho crr = new Carrinho(0, u, l, carrinhoLivros);
 				}
-				if(event.getSource() == livro2){
-					CarrinhoElement.addItem(livros.get(1 + (3 * page)));
-					Carrinho crr = new Carrinho(0,u,l,nItens + livros.get(1 + (3 * page)).getPreco());
-				}
-				if(event.getSource() == livro3){
-					CarrinhoElement.addItem(livros.get(2 + (3 * page)));
-					Carrinho crr = new Carrinho(0,u,l,nItens + livros.get(2 + (3 * page)).getPreco());	
-				}
-				if(event.getSource() == livro4){
-					CarrinhoElement.addItem(livros.get(3 + (3 * page)));
-					Carrinho crr = new Carrinho(0,u,l,nItens + livros.get(3 + (3 * page)).getPreco());	
-				}
-				if(event.getSource() == livro5){
-					CarrinhoElement.addItem(livros.get(4 + (3 * page)));
-					Carrinho crr = new Carrinho(0,u,l,nItens + livros.get(4 + (3 * page)).getPreco());
-				}
-				if(event.getSource() == livro6){
-					CarrinhoElement.addItem(livros.get(5 + (3 * page)));
-					Carrinho crr = new Carrinho(0,u,l,nItens + livros.get(5 + (3 * page)).getPreco());
-				}				
-			}else{
-				CadastroCliente cdc = new CadastroCliente(null,l,nItens);
+			} else {
+				CadastroCliente cdc = new CadastroCliente(null, l, carrinhoLivros.size());
 			}
 			PaginaInicial.this.dispose();
 		}

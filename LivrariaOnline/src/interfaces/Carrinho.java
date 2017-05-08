@@ -16,7 +16,7 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 
 import elementos.Background;
-import elementos.CarrinhoElement;
+import elementos.Item;
 import elementos.Livro;
 import elementos.Usuario;
 import utils.EventosCarrinhoDeCompras;
@@ -29,17 +29,17 @@ public class Carrinho extends JFrame {
 	private JComboBox quant1 = new JComboBox(num);
 	private JComboBox quant2 = new JComboBox(num);
 	JRadioButton optionE1, optionE2, optionP1, optionP2;
-	private JButton continuar, adicionar,next,ret;
+	private JButton continuar, adicionar, next, ret;
 	boolean u1, u2;
 	Background construtorImage = null;
-	private double it;
 	private int page;
 	private boolean login;
 	private Usuario user;
-	private double preco1,preco2;
+	private double preco1, preco2;
+	private List<Item> carrinhoCompras;
 
 	// Colocar como parâmetro o livro escolhido
-	public Carrinho(int numberOfPage,Usuario u, boolean l, double i) {
+	public Carrinho(int numberOfPage, Usuario u, boolean l, List<Item> carrinhoCompras) {
 		super("Carrinho de Compras - Livraria Online");
 		ImageIcon icone = new ImageIcon("icone.png");
 		setIconImage(icone.getImage());
@@ -47,10 +47,10 @@ public class Carrinho extends JFrame {
 		construtorImage.setSize(2000, 1500);
 		this.user = u;
 		this.login = l;
-		this.it = i;
-		this.preco1=0.0;
-		this.preco2=0.0;
+		this.preco1 = 0.0;
+		this.preco2 = 0.0;
 		this.page = numberOfPage;
+		this.carrinhoCompras = carrinhoCompras;
 
 		panel = new JPanel();
 		panel.setLayout(null);
@@ -75,14 +75,12 @@ public class Carrinho extends JFrame {
 
 		u1 = u2 = false;
 
-		CarrinhoElement carrinhoCliente = new CarrinhoElement();
-		List<Livro> itens = carrinhoCliente.getItens();
 		int size;
-		if (itens == null) {
+		if (carrinhoCompras == null) {
 			size = 0;
 		} else {
-			size = itens.size() - (2 * numberOfPage);
-			if(size>2){
+			size = carrinhoCompras.size() - (2 * numberOfPage);
+			if (size > 2) {
 				size = 2;
 			}
 		}
@@ -95,47 +93,48 @@ public class Carrinho extends JFrame {
 			break;
 		}
 
-		/*
-		 * TODO Deixar fixo o jComboBox após este ser passar por esta tela mais de uma vez
-		 */
 		if (u1 == true) {
-			String preco = "R$" + itens.get(0 + (2 * numberOfPage)).getPreco();			
-			preco1 = itens.get(0 + (2 * numberOfPage)).getPreco();
-			ImageIcon livro = new ImageIcon(itens.get(0 + (2 * numberOfPage)).getImagem());
+			int index = 0 + (2 * numberOfPage);
+			String preco = "R$" + carrinhoCompras.get(index).getLivro().getPreco();
+			preco1 = carrinhoCompras.get(index).getLivro().getPreco();
+			ImageIcon livro = new ImageIcon(carrinhoCompras.get(index).getLivro().getImagem());
 			JLabel label1 = new JLabel(livro);
 			label1.setBounds(60, 250, 100, 80);
 			item1 = new JLabel();
-			item1.setText(itens.get(0 + (2 * numberOfPage)).getTitulo());
+			item1.setText(carrinhoCompras.get(index).getLivro().getTitulo());
 			item1.setBounds(325, 260, 250, 60);
 			precoU1 = new JLabel();
 			precoU1.setText(preco);
 			precoU1.setBounds(525, 260, 250, 60);
 			quant1.setBounds(735, 270, 60, 40);
+			quant1.setSelectedIndex(carrinhoCompras.get(index).getQuantidade() - 1);
 			panel.add(label1);
 			panel.add(item1);
 			panel.add(precoU1);
 			panel.add(quant1);
 		}
 		if (u2 == true) {
-			String preco = "R$" + itens.get(1 + (2 * numberOfPage)).getPreco();
-			preco2 = itens.get(1 + (2 * numberOfPage)).getPreco();
-			ImageIcon livro = new ImageIcon(itens.get(1 + (2 * numberOfPage)).getImagem());
+			int index = 1 + (2 * numberOfPage);
+			String preco = "R$" + carrinhoCompras.get(index).getLivro().getPreco();
+			preco2 = carrinhoCompras.get(index).getLivro().getPreco();
+			ImageIcon livro = new ImageIcon(carrinhoCompras.get(index).getLivro().getImagem());
 			JLabel label1 = new JLabel(livro);
 			label1.setBounds(50, 500, 100, 80);
 			item2 = new JLabel();
-			item2.setText(itens.get(1 + (2 * numberOfPage)).getTitulo());
+			item2.setText(carrinhoCompras.get(index).getLivro().getTitulo());
 			item2.setBounds(325, 500, 250, 60);
 			precoU2 = new JLabel();
 			precoU2.setText(preco);
 			precoU2.setBounds(525, 500, 250, 60);
 			quant2.setBounds(735, 510, 60, 40);
+			quant2.setSelectedIndex(carrinhoCompras.get(index).getQuantidade() - 1);
 			panel.add(label1);
 			panel.add(item2);
 			panel.add(precoU2);
 			panel.add(quant2);
 		}
-		
-		if (size == 2 && itens.size()>(numberOfPage*2) && numberOfPage != 0) {
+
+		if (size == 2 && carrinhoCompras.size() > (numberOfPage * 2) && numberOfPage != 0) {
 			// Adicionando o botão next
 			next = new JButton();
 			next.setBounds(800, 655, 100, 40);
@@ -154,7 +153,7 @@ public class Carrinho extends JFrame {
 			retEvento handler6 = new retEvento();
 			ret.addActionListener(handler6);
 
-		} else if (size<=2 && itens.size()>=(numberOfPage*2) && numberOfPage!=0) {
+		} else if (size <= 2 && carrinhoCompras.size() >= (numberOfPage * 2) && numberOfPage != 0) {
 			ret = new JButton();
 			ret.setBounds(600, 655, 100, 40);
 			ret.setBackground(Color.white);
@@ -162,7 +161,7 @@ public class Carrinho extends JFrame {
 			panel.add(ret);
 			retEvento handler6 = new retEvento();
 			ret.addActionListener(handler6);
-		} else if (itens.size() > 2 && numberOfPage == 0) {
+		} else if (carrinhoCompras.size() > 2 && numberOfPage == 0) {
 
 			// Adicionando o botão next
 			next = new JButton();
@@ -243,19 +242,20 @@ public class Carrinho extends JFrame {
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
 		// Handler para eventos registradores
-		if(itens.size()%2 == 0){
-			EventosCarrinhoDeCompras handler1 = new EventosCarrinhoDeCompras(this,optionP1,optionP2,optionE1,optionE2,quant2,preco2,user,login,it);
-			continuar.addActionListener(handler1);
-			adicionar.addActionListener(handler1);
-			handler1.setAdicionar(adicionar);
-			handler1.setContinuar(continuar);			
-		}else{
-			EventosCarrinhoDeCompras handler1 = new EventosCarrinhoDeCompras(this,optionP1,optionP2,optionE1,optionE2,quant1,preco1,user,login,it);
-			continuar.addActionListener(handler1);
-			adicionar.addActionListener(handler1);
-			handler1.setAdicionar(adicionar);
-			handler1.setContinuar(continuar);			
+		EventosCarrinhoDeCompras handler1 = null;
+		if (carrinhoCompras.size() % 2 == 0) {
+			handler1 = new EventosCarrinhoDeCompras(this, optionP1, optionP2, optionE1, optionE2, quant2, preco2, user,
+					login, carrinhoCompras);
+		} else {
+			handler1 = new EventosCarrinhoDeCompras(this, optionP1, optionP2, optionE1, optionE2, quant1, preco1, user,
+					login, carrinhoCompras);
 		}
+
+		continuar.addActionListener(handler1);
+		adicionar.addActionListener(handler1);
+		handler1.setAdicionar(adicionar);
+		handler1.setContinuar(continuar);
+
 	}
 
 	private class nextEvento implements ActionListener {
@@ -263,7 +263,7 @@ public class Carrinho extends JFrame {
 		public void actionPerformed(ActionEvent event) {
 
 			if (event.getSource() == next) {
-				Carrinho pgi = new Carrinho(page+1,user,login,it);
+				Carrinho pgi = new Carrinho(page + 1, user, login, carrinhoCompras);
 				Carrinho.this.dispose();
 			}
 		}
@@ -274,7 +274,7 @@ public class Carrinho extends JFrame {
 		public void actionPerformed(ActionEvent event) {
 
 			if (event.getSource() == ret) {
-				Carrinho pgi = new Carrinho(page-1,user,login,it);
+				Carrinho pgi = new Carrinho(page - 1, user, login, carrinhoCompras);
 				Carrinho.this.dispose();
 			}
 
