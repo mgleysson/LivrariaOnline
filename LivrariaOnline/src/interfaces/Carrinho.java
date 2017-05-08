@@ -96,7 +96,7 @@ public class Carrinho extends JFrame {
 		}
 
 		/*
-		 * TODO Favor explicar
+		 * TODO Deixar fixo o jComboBox após este ser passar por esta tela mais de uma vez
 		 */
 		if (u1 == true) {
 			String preco = "R$" + itens.get(0 + (2 * numberOfPage)).getPreco();			

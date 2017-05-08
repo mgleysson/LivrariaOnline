@@ -226,7 +226,7 @@ public class PaginaInicial extends JFrame {
 		carrinho.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
 		carrinho.setBackground(Color.white);
 		carrinho.setBorderPainted(false);
-		
+		// TODO Verificar o erro que esta provocando acesso a todos os clientes de funções do admin 
 		if(user != null){
 			if(u.isAdmin() == true){
 				cadsAdmin = new JButton();
